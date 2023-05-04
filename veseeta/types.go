@@ -1,5 +1,7 @@
 package veseeta
 
+import "github.com/graduation-fci/multivendor-scrapper/search"
+
 type SearchResponse struct {
 	From       int       `json:"from"`
 	Size       int       `json:"size"`
@@ -18,5 +20,19 @@ type Product struct {
 	CategoryURLAr          string `json:"categoryUrlAr"`
 	Category               string `json:"category"`
 	MainImageURL           string `json:"mainImageUrl"`
-	Searchable             bool   `json:"searchable"`
+}
+
+func (p Product) ToGeneric() search.Response {
+	return search.Response{
+		ID:                     p.ID,
+		ProductShapeTypeName:   p.ProductShapeTypeName,
+		ProductShapeTypeNameAr: p.ProductShapeTypeNameAr,
+		ProductShapeIconURL:    p.ProductShapeIconURL,
+		ProductNameEn:          p.ProductNameEn,
+		ProductNameAr:          p.ProductNameAr,
+		CategoryURLEn:          p.CategoryURLEn,
+		CategoryURLAr:          p.CategoryURLAr,
+		Category:               p.Category,
+		MainImageURL:           p.MainImageURL,
+	}
 }
