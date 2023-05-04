@@ -8,6 +8,7 @@ type Item = string
 
 type Response struct {
 	ID                     int
+	ScrapperInternalName   string
 	ProductShapeTypeName   string
 	ProductShapeTypeNameAr string
 	ProductShapeIconURL    string
