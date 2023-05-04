@@ -111,6 +111,10 @@ func (t *Theif) hand(id int, items chan Item, wg *sync.WaitGroup) {
 }
 
 func (t *Theif) reachedThereShold(counter int) bool {
+	if t.Opts.YieldThereshold == 0 {
+		return false
+	}
+
 	const zeroIndexOffest = 1
 	counter = counter + zeroIndexOffest
 
