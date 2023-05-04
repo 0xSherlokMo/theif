@@ -1,5 +1,11 @@
 package search
 
+const (
+	TAG = "[SEARCH]"
+)
+
+type Item = string
+
 type Response struct {
 	ID                     int
 	ProductShapeTypeName   string
@@ -15,4 +21,5 @@ type Response struct {
 
 type SearchDriver interface {
 	Search(query string) (Response, error)
+	Identifier() string
 }

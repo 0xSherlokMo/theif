@@ -36,6 +36,10 @@ func NewScrapper() Scrapper {
 	}
 }
 
+func (s Scrapper) Identifier() string {
+	return TAG
+}
+
 func (s Scrapper) Search(term string) (search.Response, error) {
 	response, err := http.Get(s.URL(term))
 	if err != nil {
