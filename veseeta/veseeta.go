@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/adrg/strutil"
+	"github.com/adrg/strutil/metrics"
 	"github.com/graduation-fci/multivendor-scrapper/search"
 )
 
@@ -24,15 +26,20 @@ const (
 
 type Scrapper struct {
 	baseLink *url.URL
+	metric   strutil.StringMetric
 }
 
 func NewScrapper() Scrapper {
+	metric := metrics.NewLevenshtein()
+	metric.CaseSensitive = false
+
 	return Scrapper{
 		baseLink: &url.URL{
 			Scheme: SCHEMA,
 			Host:   HOST,
 			Path:   PATH,
 		},
+		metric: metric,
 	}
 }
 
@@ -57,7 +64,8 @@ func (s Scrapper) Search(term string) (search.Response, error) {
 		log.Printf("%s, Error in Decoding Body. Error: %s", TAG, err)
 		return search.Response{}, err
 	}
-	return search.Response{}, nil
+
+	return s.highestSimularity(term, searchResponse.Product).ToGeneric(term), nil
 }
 
 func (s *Scrapper) URL(term string) string {
@@ -68,4 +76,18 @@ func (s *Scrapper) URL(term string) string {
 	url := *s.baseLink
 	url.RawQuery = params.Encode()
 	return url.String()
+}
+
+func (s *Scrapper) highestSimularity(term string, products []Product) Product {
+	var highestSimularProduct Product
+	highestScore := 0.0
+	for _, product := range products {
+		score := strutil.Similarity(term, product.ProductNameEn, s.metric)
+		if score > highestScore {
+			highestScore = score
+			highestSimularProduct = product
+		}
+	}
+
+	return highestSimularProduct
 }

@@ -22,9 +22,10 @@ type Product struct {
 	MainImageURL           string `json:"mainImageUrl"`
 }
 
-func (p Product) ToGeneric() search.Response {
+func (p Product) ToGeneric(internalTerm string) search.Response {
 	return search.Response{
 		ID:                     p.ID,
+		ScrapperInternalName:   internalTerm,
 		ProductShapeTypeName:   p.ProductShapeTypeName,
 		ProductShapeTypeNameAr: p.ProductShapeTypeNameAr,
 		ProductShapeIconURL:    p.ProductShapeIconURL,
