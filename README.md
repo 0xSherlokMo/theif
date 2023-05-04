@@ -1,3 +1,3 @@
-# veseeta-scrapper
+# multivendor-scrapper
 
-this repo is private for legal purposes. don't change access settings. 
+a general package for scrapping different resources. just like a plug-and
