@@ -57,7 +57,6 @@ func (s Scrapper) Search(term string) (search.Response, error) {
 		log.Printf("%s, Error in Decoding Body. Error: %s", TAG, err)
 		return search.Response{}, err
 	}
-	log.Printf("%v", searchResponse.Product)
 	return search.Response{}, nil
 }
 
