@@ -36,8 +36,8 @@ func NewScrapper() Scrapper {
 	}
 }
 
-func (s *Scrapper) Search(query string) (search.Response, error) {
-	response, err := http.Get(s.URL(query))
+func (s Scrapper) Search(term string) (search.Response, error) {
+	response, err := http.Get(s.URL(term))
 	if err != nil {
 		log.Printf("%s, Error in HTTP Request. info: %s", TAG, err)
 		return search.Response{}, err
@@ -57,11 +57,11 @@ func (s *Scrapper) Search(query string) (search.Response, error) {
 	return search.Response{}, nil
 }
 
-func (s *Scrapper) URL(query string) string {
+func (s *Scrapper) URL(term string) string {
 	params := url.Values{}
 	params.Add(VEERSION_FIELD, VERSION_VALUE)
 	params.Add(SIZE_FIELD, SIZE_VALUE)
-	params.Add(QUERY_FIELD, query)
+	params.Add(QUERY_FIELD, term)
 	url := *s.baseLink
 	url.RawQuery = params.Encode()
 	return url.String()
